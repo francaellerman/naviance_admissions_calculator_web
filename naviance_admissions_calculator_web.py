@@ -17,7 +17,7 @@ def get():
         SAT = float(SAT)
     if GPA:
         GPA = float(GPA)
-    df = naviance.all_college_predictions(SAT, GPA)
+    df = naviance_admissions_calculator.all_college_predictions(SAT, GPA)
     df.index = df.index.map(lambda x: x.replace('_', ' '))
     df = df.sort_values(by='chance')
     def report(row):
