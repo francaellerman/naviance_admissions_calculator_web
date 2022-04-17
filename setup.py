@@ -5,7 +5,7 @@ setup(name='naviance_admissions_calculator_web',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      #py_modules=['naviance_admissions_calculator_web'],
+      py_modules=['naviance_admissions_calculator_web'],
       install_requires = [
           'naviance_admissions_calculator @ git+https://github.com/francaellerman/naviance_admissions_calculator',
           'flask']

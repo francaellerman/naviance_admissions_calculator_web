@@ -1,2 +1,2 @@
-graft static
-graft templates
+graft naviance_admissions_calculator_web/static
+graft naviance_admissions_calculator_web/templates
