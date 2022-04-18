@@ -66,9 +66,8 @@ def contact():
     msg.set_content(f"From: {flask.request.form.get('email')}\n{flask.request.form.get('text')}")
     msg['Subject'] = 'New contact on LHS Admissions Calculator'
     with open('/etc/naviance_admissions_calculator_web/email_address.txt') as f:
-        address = f.read().rstrip()
-    msg['From'] = address
-    msg['To'] = address
+        msg['From'] = f.readline().rstrip()
+        msg['To'] = f.readline().rstrip()
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
