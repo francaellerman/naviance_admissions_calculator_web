@@ -53,7 +53,7 @@
             <a name='search_area'></a>
             <form method='POST' class='card card-body'>
                 <p>Search the <strong>full name</strong> of an available college here or see lists of colleges below</p>
-                <input class="form-control" name='college' list="datalistOptions" placeholder="ex. Massachusetts Institute of Technology" value='{{session['college']}}' pattern='{{pattern}}'>
+                <input class="form-control" name='college' list="datalistOptions" placeholder="ex. Massachusetts Institute of Technology" pattern='{{pattern}}'>
                 <datalist id='datalistOptions'>
                     {% for college in chances.index %}
                         <option value='{{college}}'>
