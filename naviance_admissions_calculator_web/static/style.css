@@ -17,25 +17,13 @@ h1, a, .btn-link {
     /*color: #198754;*/
 }
 
+h1 img {
+    height: 1em;
+}
+
 body > * {
     margin: 1.5rem 1.5rem 0;
     /*padding: 1.5rem;*/
-}
-
-#header {
-    font-family: 'Exo', sans-serif;
-    text-align: center;
-    margin: 1rem 0 2rem;
-}
-
-#about_header {
-    font-family: 'Exo', sans-serif;
-    text-align: center;
-    margin: 1rem 0 1rem;
-}
-
-#about_header:hover > a {
-    color: rgb(34, 117, 56);
 }
 
 .card {
@@ -63,38 +51,92 @@ body > * {
     margin: 0 0 1rem;
 }
 
-.card-body > button {
+.card-body > *:last-child {
     margin: 0;
 }
 
-#search_space {
-    padding: 0;
-    max-width: 27.5rem;
-    text-align: center;
+#search_bar {
+    margin: 0;
 }
 
-#search_space > form{
-    padding: 1.5rem;
+h1 {
+    font-family: 'Exo', sans-serif;
+    text-align: center;
+    margin: 1rem 0 1rem !important;
+}
+
+h1:hover > a {
+    color: rgb(34, 117, 56);
+}
+
+h1 + p {
+    margin-top: 1rem !important;
 }
 
 .bigger {
     font-size: 1.15rem;
 }
 
-.search_college {
-    font-size: 1.5rem;
+input[type='radio'] {
+    accent-color: hsla(120, 55%, 29.6%, 1);
 }
 
-#college {
+#results_space {
+    display: flex;
+    gap: .5rem;
+}
+
+#results_space > button {
+    /*
+    box-sizing: content-box;
+    height: 1rem;
+    width: 1rem;*/
+}
+
+.form_data {
+    font-size: 1.5rem;
+    display: inline-block;
+    margin: 0;
+}
+
+#results_space > .recently_accepted {
+    margin-left: 1rem;
+}
+
+/*This is from when I posted the college name and the percent
+//<hr> is the first child
+.form_data > p:nth-child(2) {
     margin: 1.5rem 0 .75rem;
 }
 
-#chance {
+.form_data > p:nth-child(3){
     margin: 0;
 }
+
+hr {
+    width: 50%;
+}
+*/
 
 .table {
     width: initial;
     font-size: 1.15rem;
     margin: 0;
+}
+
+th {
+    text-align: center;
+}
+
+tr {
+    border-bottom-width: 1px;
+}
+
+td {
+    border-bottom-width: 0 !important;
+}
+
+.info_td {
+    display: flex;
+    gap: .5rem;
 }
