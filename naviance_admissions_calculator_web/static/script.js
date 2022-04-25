@@ -111,10 +111,6 @@ var app = createApp({
                     text: this.input_text})
             })
             this.input_text = undefined
-        },
-        visibility(bool) {
-            if (bool) {return 'visible'}
-            else {return 'hidden' }
         }
     },
     delimiters: ['[[',']]']

@@ -11,7 +11,7 @@
         {
             'if': item + '.info == "const_only"',
             'title': 'Not based on your SAT nor GPA',
-            'description': 'This could be because this college accepts so little people or because of low data.',
+            'description': 'This could be because this college accepts so few or because so few apply.',
             'class': 'constant',
             'svg': 'person-x-fill'
         }
@@ -29,8 +29,6 @@
         </button>
     {% endfor %}
 {%- endmacro %}
-{% set colors = "100%, 29.6%" %}
-{% set bool = 'college.color == null || college.color == undefined' %}
 {% block description %}
     <p>Do you ever wonder what your chance of admission to colleges are? The LHS Admissions Calculator uses Lexington High School's Naviance scatterplot data to model the percent of LHS students with your GPA and/or SAT who will get in to various colleges.
     <a href='about'>You can learn more about the methodology and creator.</a></p>
@@ -80,13 +78,14 @@
                 <tr>
                     <th scope='col'>Available colleges</th>
                     <th scope='col'>Percent</th>
-                    <th scope='col'>Info</th>
+                    <th scope='col'>Cautions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for='item of table'>
                     <td>[[item.name]]</td>
-                    <td :style='color(item)'>[[item.chance]]</td>
+                    <td v-if='!input_gpa && !input_stand && item.info == "const_only"'></td>
+                    <td v-else :style='color(item)'>[[item.chance]]</td>
                     <td class='info_td'>
                         {{ popovers('-sm', 'item') }}
                     </td>
