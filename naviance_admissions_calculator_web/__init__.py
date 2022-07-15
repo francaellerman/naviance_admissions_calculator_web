@@ -5,13 +5,16 @@ import smtplib
 import email
 import json
 import pickle
+import logging_franca_link
 
-app = flask.Flask(__name__)
-app.config.from_pyfile('/etc/naviance_admissions_calculator_web/config.py')
-#For encrypting sessions (cookies) when responding to the client
-app.permanent_session_lifetime = app.config['PERMANENT_SESSION_LIFETIME']
+wrapper_related = logging_franca_link.wrapper_related('franca_link.calculator')
+wrapper = wrapper_related.wrapper
 
+app = flask.Blueprint('calculator', __name__, template_folder='templates', static_folder='static')
+
+_get = wrapper()
 @app.route('/', methods=['GET'])
+@_get
 def get():
     colleges = naviance_admissions_calculator.get_college_names()
     colleges = [x.replace('_',' ') for x in colleges]
@@ -19,9 +22,11 @@ def get():
     for college in colleges[:-1]:
         pattern += college + "|"
     pattern += colleges[-1] + ")$"
-    return flask.render_template('index.html', pattern=pattern)
+    return flask.render_template('naviance_admissions_calculator_web/index.html', pattern=pattern)
 
+_api = wrapper()
 @app.route('/api', methods=['GET'])
+@_api
 def api():
     #Test
     def present(obj):
@@ -66,14 +71,17 @@ def api():
     df.reset_index(inplace=True)
     #table = [{'name': 'SAT', 'chance':SAT, 'color':0},
     #        {'name':'GPA', 'chance':GPA, 'color': None}]
-    return app.response_class(response=df.to_json(orient='records'),
-            mimetype='application/json')
+    return df.to_json(orient='records')
 
+_about = wrapper()
 @app.route('/about', methods=['GET'])
+@_about
 def about():
-    return flask.render_template('about.html')
+    return flask.render_template('naviance_admissions_calculator_web/about.html')
 
+_post = wrapper()
 @app.route('/', methods=['POST'])
+@_post
 def post():
     for name, value in flask.request.form.items():
         flask.session[name] = value
@@ -87,7 +95,6 @@ def post():
 #        goto += '#search_area'
     return flask.redirect('/')
 
-@app.route('/contact', methods=['POST'])
 def contact():
     request = flask.request.json
     print(request)

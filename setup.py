@@ -8,5 +8,6 @@ setup(name='naviance_admissions_calculator_web',
       py_modules=['naviance_admissions_calculator_web'],
       install_requires = [
           'naviance_admissions_calculator @ git+https://github.com/francaellerman/naviance_admissions_calculator',
+          'logging_franca_link @ git+https://github.com/francaellerman/logging_franca_link',
           'flask']
       )
