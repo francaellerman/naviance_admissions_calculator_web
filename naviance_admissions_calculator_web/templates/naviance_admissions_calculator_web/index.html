@@ -1,0 +1,102 @@
+{% extends 'naviance_admissions_calculator_web/layout.html' %}
+{% macro popovers(size, item) -%}
+    {% set pops = [
+        {
+            'if': item + '.recently_accepted == false',
+            'title': 'Naviance reports no LHS acceptances since 2018',
+            'description': "This could be because of yield protection or because this college isn't popular at LHS. The percent is not as reliable.",
+            'class': 'recently_accepted',
+            'svg': 'graph-down-arrow'
+        },
+        {
+            'if': item + '.info == "const_only"',
+            'title': 'Not based on your SAT nor GPA',
+            'description': 'This could be because this college accepts so few or because so few apply.',
+            'class': 'constant',
+            'svg': 'person-x-fill'
+        }
+    ] %}
+    {% for pop in pops %}
+        <button
+            v-show='{{pop['if']}}'
+            data-bs-toggle="popover"
+            data-bs-trigger="hover focus"
+            title="{{pop['title']}}"
+            data-bs-content="{{pop['description']}}"
+            class="btn btn-secondary btn{{size}} {{pop['class']}} pop"
+            type="button">
+            <i class='bi bi-{{pop['svg']}}'></i>
+        </button>
+    {% endfor %}
+{%- endmacro %}
+{% block description %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">franca.link</a></li>
+            <li class="breadcrumb-item active">calculator</li>
+        </ol>
+    </nav>
+    <p>Do you ever wonder what your chance of admission to colleges are? The LHS Admissions Calculator uses Lexington High School's Naviance scatterplot data to model the percent of LHS students with your GPA and/or SAT who will get in to various colleges.
+    <a href='about'>You can learn more about the methodology and creator.</a></p>
+    <p>To use, just input your GPA and/or SAT below. The list of colleges at the bottom of the page will fill with percents and you can search for a specific one.</p>
+{% endblock %}
+{% block content %}
+    <div class='card card-body'>
+        <label for='GPA' class='form-label'>LHS Unweighted GPA</label>
+        <input type='number' min='1' max='4.33' step='any'
+           placeholder='ex. 3.82' :value='input_gpa' @input='update_gpa'
+           class='form-control'>
+        <div>
+            <div class='form-check form-check-inline'>
+                <input class='form-check-input' type='radio' name='radio'
+                       id='sat' value='sat' @change='update_radio'
+                       :checked='input_radio == "sat"'>
+                <label class='form-check-label' for='sat'>SAT</label>
+            </div>
+            <div class='form-check form-check-inline'>
+                <input class='form-check-input' type='radio' name='radio'
+                       id='act' value='act' @change='update_radio'
+                       :checked='input_radio == "act"'>
+                <label class='form-check-label' for='act'>ACT</label>
+            </div>
+        </div>
+        <input type='number' min='400' max='1600' step='10'
+           :placeholder='"ex. " + stand_ex' :value='input_stand'
+           @input='update_stand' class='form-control'>
+    </div>
+    <div class='card card-body'>
+        {#<p>Search the <strong>exact full name</strong> of an available college here or see all colleges below</p>#}
+            <div id='results_space'>
+        <template v-if='Boolean(college)'>
+            <p class='form_data' :style='color(college)'>[[college.chance]]</p>
+                {{popovers('-sm', 'college')}}
+        </template>
+        <p class='form_data' v-else>Search a college</p>
+            </div>
+        <input :value='input_college' @input='update_college' class="form-control" name='college' list="datalistOptions" placeholder="ex. Massachusetts Institute of Technology" pattern='{{pattern}}' id='search_bar'>
+        <datalist id='datalistOptions'>
+            <option v-for='item of table' :value='[[item.name]]'>
+        </datalist>
+    </div>
+    <div class="card card-body">
+        <table class='table'>
+            <thead class='table-light'>
+                <tr>
+                    <th scope='col'>Available colleges</th>
+                    <th scope='col'>Percent</th>
+                    <th scope='col'>Cautions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='item of table'>
+                    <td>[[item.name]]</td>
+                    <td v-if='!input_gpa && !input_stand && item.info == "const_only"'></td>
+                    <td v-else :style='color(item)'>[[item.chance]]</td>
+                    <td class='info_td'>
+                        {{ popovers('-sm', 'item') }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
