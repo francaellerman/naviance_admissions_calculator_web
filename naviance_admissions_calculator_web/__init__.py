@@ -5,9 +5,9 @@ import smtplib
 import email
 import json
 import pickle
-import logging_franca_link
+import franca_link.my_logging as my_logging
 
-wrapper_related = logging_franca_link.wrapper_related('franca_link.calculator')
+wrapper_related = my_logging.wrapper_related('franca_link.calculator')
 wrapper = wrapper_related.wrapper
 
 app = flask.Blueprint('calculator', __name__, template_folder='templates', static_folder='static')
